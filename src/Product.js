@@ -1,8 +1,11 @@
 import React, { Component} from 'react'
 import {graphql, gql} from 'react-apollo'
+import AddProduct from './AddProduct'
 
-const query = gql`{
-  allProducts (first:2){ 
+
+export const query = gql`{
+  allProducts { 
+    id
     name
   }
 
@@ -11,10 +14,21 @@ const query = gql`{
 class Product extends Component{
     render(){
 
-        console.log(this.props.data)
-        return (<h1>
+        let { data: { allProducts } } = this.props;
+        allProducts = (allProducts) ? allProducts : [];
+        console.log(allProducts)
+        return(
+            <div>
+            <ul>
+                {allProducts.map(({ id, name }) => (
+                    <li key={id}>{name}</li>
+                ))}
+            </ul>
+               <AddProduct/>
+            </div>
+        )
 
-        </h1>)
+
     }
 }
 
